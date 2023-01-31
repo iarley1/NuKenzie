@@ -1,9 +1,12 @@
-import { RoutesMain as Route } from "./routes";
+import { RoutesMain as Routes } from "./routes";
+import { DataProvider } from "./contexts/DataContext";
 
 function App() {
   return (
     <>
-      <Route />
+      <DataProvider>
+        <Routes />
+      </DataProvider>
     </>
   );
 }

@@ -1,5 +1,11 @@
+import { Form } from "../../components/Form";
+import { ListTrasaction } from "../../components/ListTransaction";
+
 export const DashBoardPage = () => {
-    return (
-        <h1>DashBoard</h1>
-    )
-}
+  return (
+    <>
+      <Form />
+      <ListTrasaction />
+    </>
+  );
+};
