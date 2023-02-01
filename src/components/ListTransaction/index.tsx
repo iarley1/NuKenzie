@@ -9,7 +9,7 @@ export const ListTrasaction = () => {
         <ul>
             {listTransactions.map((transaction, index) => {
                 return (
-                    <CardTransaction transaction={transaction} key={index}/>
+                    <CardTransaction transaction={transaction} index={index} key={index}/>
                 )
             })}
         </ul>
