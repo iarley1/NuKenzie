@@ -1,27 +1,46 @@
 import { useContext } from "react";
 import { DataContext } from "../../contexts/DataContext";
 import { Button } from "../Button";
+import { StyledLi } from "./style";
+import trash from "../../asserts/img/trash.svg"
+import { iDataTransactionReturn } from "../Form";
 
-export const CardTransaction = ({ transaction, index }: any) => {
-  const { listTransactions, setListTransactions} = useContext(DataContext)
+interface cardTrasactionProps {
+  transaction: iDataTransactionReturn
+}
 
-  const indexObj = index
+export const CardTransaction = ({ transaction }: cardTrasactionProps) => {
+  const { listTransactions, setListTransactions } = useContext(DataContext);
 
-  const deleteTransaction = () => {
-    const newListTransactions = listTransactions.filter((transaction, index) => {
-      return indexObj !== index
-    })
-    setListTransactions(newListTransactions)
+  const deleteTransaction = (id: number) => {
+    const newListTransactions = listTransactions.filter(
+      transaction => transaction.id !== id
+    );
+    setListTransactions(newListTransactions);
   };
 
+
   return (
-    <>
-      <li>
+    <StyledLi colorCard={transaction.type}>
+      <span className="color-card"></span>
+      <div className="description-type">
         <h2>{transaction.description}</h2>
-        <p>{transaction.value}</p>
         <p>{transaction.type}</p>
-        <Button onClick={deleteTransaction} type="button">Excluir</Button>
-      </li>
-    </>
+      </div>
+      <div className="value-button">
+        <p>
+          {transaction.value.toLocaleString("pt-br", {
+            style: "currency",
+            currency: "BRL",
+          })}
+        </p>
+        <Button onClick={() => deleteTransaction(transaction.id)} type="button">
+         <img src={trash} alt="" />
+        </Button>
+      </div>
+    </StyledLi>
   );
 };
+
+
+

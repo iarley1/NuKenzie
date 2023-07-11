@@ -1,20 +1,46 @@
 import { createContext, useState, useEffect, SetStateAction } from "react";
-import { iDataTransaction } from "../components/Form";
+import { iDataTransactionReturn } from "../components/Form";
 
 interface iDAtaProviderProps {
   children: React.ReactNode;
 }
 
 interface iDataContext {
-  listTransactions: iDataTransaction[];
-  setListTransactions: React.Dispatch<SetStateAction<iDataTransaction[]>>;
+  listTransactions: iDataTransactionReturn[];
+  setListTransactions: React.Dispatch<SetStateAction<iDataTransactionReturn[]>>;
+  listTransactionsFitered: iDataTransactionReturn[];
+  filter: string;
+  handleClickEntry: () => void;
+  handleClickExit: () => void;
+  handleClickAll: () => void;
 }
 
 export const DataContext = createContext({} as iDataContext);
 
 export const DataProvider = ({ children }: iDAtaProviderProps) => {
-  const obj: iDataTransaction[] = [];
+  const obj: iDataTransactionReturn[] = [];
   const [listTransactions, setListTransactions] = useState(obj);
+  const [filter, setFilter] = useState("todos");
+
+  const handleClickEntry = () => {
+    setFilter("Entrada");
+  };
+
+  const handleClickExit = () => {
+    setFilter("Saida");
+  };
+
+  const handleClickAll = () => {
+    setFilter("todos")
+  }
+
+  let listTransactionsFitered = listTransactions.filter(
+    (transaction) => transaction.type === filter
+  );
+
+  if (filter === "todos") {
+    listTransactionsFitered = listTransactions;
+  }
 
   useEffect(() => {
     if (localStorage.getItem("transactions") !== "[]") {
@@ -29,7 +55,7 @@ export const DataProvider = ({ children }: iDAtaProviderProps) => {
   }, [listTransactions]);
 
   return (
-    <DataContext.Provider value={{ listTransactions, setListTransactions }}>
+    <DataContext.Provider value={{ listTransactions, setListTransactions, listTransactionsFitered, filter, handleClickEntry, handleClickExit, handleClickAll }}>
       {children}
     </DataContext.Provider>
   );

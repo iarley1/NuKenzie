@@ -5,13 +5,14 @@ interface iInputProps {
   type: string;
   placeholder?: string;
   register?: UseFormRegisterReturn;
+  className?: string
 }
 
-export const Input = ({ label, type, placeholder, register }: iInputProps) => {
+export const Input = ({ label, type, placeholder, register, className }: iInputProps) => {
   return (
-    <>
+    <div className="div-input">
       <label>{label}</label>
-      <input type={type} placeholder={placeholder} {...register}/>
-    </>
+      <input className={className} type={type} placeholder={placeholder} {...register}/>
+    </div>
   );
 };
